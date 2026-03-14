@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test: URL Encoder</title>
+</head>
+<body>
+    <h1>URL Encoder Test Suite</h1>
+    <div id="results"></div>
+    <script>
+        const results = [];
+        
+        // Test 1: Basic encoding
+        const test1 = encodeURIComponent("Hello World");
+        results.push(`Test 1 (encode "Hello World"): ${test1 === "Hello%20World" ? "PASS" : "FAIL"} - got: ${test1}`);
+        
+        // Test 2: Special characters
+        const test2 = encodeURIComponent("test@example.com?foo=bar");
+        results.push(`Test 2 (special chars): ${test2.includes("%40") ? "PASS" : "FAIL"} - got: ${test2}`);
+        
+        // Test 3: Decode
+        const test3 = decodeURIComponent("Hello%20World");
+        results.push(`Test 3 (decode): ${test3 === "Hello World" ? "PASS" : "FAIL"} - got: ${test3}`);
+        
+        // Test 4: Empty string
+        const test4 = encodeURIComponent("");
+        results.push(`Test 4 (empty): ${test4 === "" ? "PASS" : "FAIL"} - got: "${test4}"`);
+        
+        document.getElementById('results').innerHTML = results.map(r => `<p>${r}</p>`).join('');
+        console.log(results.join('\n'));
+    </script>
+</body>
+</html>
