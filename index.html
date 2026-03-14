@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder/Decoder</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .container { background: #1e293b; padding: 40px; border-radius: 16px; width: 100%; max-width: 700px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+    h1 { text-align: center; margin-bottom: 30px; color: #38bdf8; }
+    label { display: block; margin-bottom: 8px; font-weight: 500; color: #94a3b8; }
+    textarea { width: 100%; height: 120px; padding: 16px; border: 2px solid #334155; border-radius: 8px; background: #0f172a; color: #e2e8f0; font-family: monospace; font-size: 14px; resize: vertical; margin-bottom: 20px; }
+    textarea:focus { outline: none; border-color: #38bdf8; }
+    .buttons { display: flex; gap: 12px; margin-bottom: 20px; }
+    button { flex: 1; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-encode { background: #38bdf8; color: #0f172a; }
+    .btn-encode:hover { background: #0ea5e9; }
+    .btn-decode { background: #8b5cf6; color: white; }
+    .btn-decode:hover { background: #7c3aed; }
+    .btn-copy { background: #10b981; color: white; }
+    .btn-copy:hover { background: #059669; }
+    .result { background: #0f172a; padding: 20px; border-radius: 8px; border: 2px solid #334155; }
+    .result label { margin-bottom: 12px; }
+    .stats { text-align: center; margin-top: 20px; color: #64748b; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔗 URL Encoder/Decoder</h1>
+    <label>Enter text:</label>
+    <textarea id="input" placeholder="Paste URL or text here..."></textarea>
+    <div class="buttons">
+      <button class="btn-encode" onclick="encode()">Encode</button>
+      <button class="btn-decode" onclick="decode()">Decode</button>
+      <button class="btn-copy" onclick="copy()">Copy Result</button>
+    </div>
+    <div class="result">
+      <label>Result:</label>
+      <textarea id="output" readonly></textarea>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+  <script>
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const stats = document.getElementById('stats');
+    
+    function encode() {
+      try {
+        output.value = encodeURIComponent(input.value);
+        updateStats();
+      } catch(e) { output.value = 'Error: ' + e.message; }
+    }
+    
+    function decode() {
+      try {
+        output.value = decodeURIComponent(input.value);
+        updateStats();
+      } catch(e) { output.value = 'Error: Invalid encoding'; }
+    }
+    
+    function copy() {
+      output.select();
+      document.execCommand('copy');
+      const btn = document.querySelector('.btn-copy');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy Result', 1500);
+    }
+    
+    function updateStats() {
+      stats.textContent = `Input: ${input.value.length} chars → Output: ${output.value.length} chars`;
+    }
+    
+    input.addEventListener('input', updateStats);
+  </script>
+</body>
+</html>
